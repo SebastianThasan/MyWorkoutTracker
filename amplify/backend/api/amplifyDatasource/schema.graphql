@@ -1,0 +1,20 @@
+type Group @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  groupName: String!
+  workoutsRelationship: [Workout] @hasMany(indexName: "byGroup", fields: ["id"])
+}
+
+type Workout @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  workoutName: String!
+  groupID: ID! @index(name: "byGroup")
+  setsRelationship: [Set] @hasMany(indexName: "byWorkout", fields: ["id"])
+}
+
+type Set @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  setNumber: Int!
+  weight: Int!
+  reps: Int!
+  workoutID: ID! @index(name: "byWorkout")
+}
